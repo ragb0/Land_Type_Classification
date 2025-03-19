@@ -1,6 +1,6 @@
-[build]
-runtime = "python3.9"
-install = "pip install -r requirements.txt"
+[workspace]
+project = "Land_type_api"
 
-[run]
-command = "streamlit run app.py --server.port 8080 --server.address 0.0.0.0"
+[server]
+runtime = "python3.9"
+start = "streamlit run app.py"  # If using Flask, use "python app.py"
