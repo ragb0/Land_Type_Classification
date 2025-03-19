@@ -3,4 +3,4 @@ project = "Land_type_api"
 
 [server]
 runtime = "python3.9"
-start = "streamlit run app.py"  # If using Flask, use "python app.py"
+start = "python Deployment.py"
