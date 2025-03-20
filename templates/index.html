@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EuroSAT Image Classification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='Land_Type.png') }}");
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen text-white">
+    <!-- Background Image with Overlay -->
+    <div class="background-overlay"></div>
+
+    <!-- Main Content -->
+    <div class="bg-white p-8 rounded-2xl shadow-lg text-center w-96 text-gray-900 bg-opacity-90 z-10">
+        <h1 class="text-2xl font-semibold mb-6">🌍 EuroSAT Image Classification</h1>
+
+        <!-- Upload Form -->
+        <form id="upload-form" class="space-y-4" enctype="multipart/form-data">
+            <label for="file-upload"
+                class="cursor-pointer block w-full text-center p-4 border border-dashed border-gray-400 rounded-lg hover:bg-gray-100">
+                <span class="block text-gray-700">📤 Choose an Image</span>
+                <input id="file-upload" type="file" name="file" accept="image/*" class="hidden" required>
+            </label>
+
+            <img id="image-preview" src="#" alt="Image Preview" class="hidden w-full max-h-40 rounded-lg shadow-md">
+
+            <button type="submit"
+                class="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition">🔍
+                Predict</button>
+        </form>
+
+        <!-- Loading and Result Display -->
+        <div class="mt-4">
+            <p id="prediction-result" class="text-gray-700">Upload an image to see the prediction.</p>
+            <div id="loading-spinner"
+                class="hidden border-4 border-gray-300 border-t-blue-500 rounded-full w-8 h-8 mx-auto animate-spin">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("file-upload").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.getElementById("image-preview");
+                    img.src = e.target.result;
+                    img.classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById("upload-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const resultDiv = document.getElementById("prediction-result");
+            const spinner = document.getElementById("loading-spinner");
+
+            // Show loading spinner
+            resultDiv.textContent = "";
+            spinner.classList.remove("hidden");
+
+            const formData = new FormData(e.target);
+            const response = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+            const result = await response.json();
+
+            // Hide loading spinner
+            spinner.classList.add("hidden");
+
+            if (result.error) {
+                resultDiv.textContent = result.error;
+            } else {
+                resultDiv.innerHTML = `<strong>Predicted Class:</strong> ${result.predicted_class} <br> <strong>Confidence:</strong> ${(result.confidence * 100).toFixed(2)}%`;
+            }
+        });
+    </script>
+</body>
+
+</html>
