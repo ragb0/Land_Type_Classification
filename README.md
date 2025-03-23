@@ -9,7 +9,7 @@ This repository contains a **Flask web application** for classifying land types 
 ✅ Simple **Flask-based web interface** for easy deployment.  
 
 ## 📷 Screenshot of the Deployment
-![Deployment Screenshot](static/Land_Type.png)
+![Deployment Screenshot](static/Deployment_screenshot.png)
 
 ## 🛠 Installation & Setup
 
