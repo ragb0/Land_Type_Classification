@@ -2,10 +2,8 @@ Land Type Classification
 
 📌 Project Overview
 
-## 🌐 API Screenshot
-Here is a preview of the **Flask API** in action:
 
-(UI.png)   (test.png)
+![API Screenshot](UI.png)   ![API Screenshot](test.png)
 
 
 This project focuses on Land Type Classification using deep learning techniques. The goal is to accurately classify different land types based on satellite or aerial imagery. The model is trained on an image dataset and leverages machine learning techniques to predict the type of land, such as forests, water bodies, urban areas, and agricultural land.
